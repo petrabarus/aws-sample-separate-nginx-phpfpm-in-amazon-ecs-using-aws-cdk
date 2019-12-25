@@ -1,0 +1,12 @@
+version: '3'
+services:
+  nginx:
+    build: './nginx'
+    depends_on:
+      - php-fpm
+    ports:
+      - '8000:80'
+  php-fpm:
+    build: './php-fpm'
+    ports:
+      - '9000:9000'
