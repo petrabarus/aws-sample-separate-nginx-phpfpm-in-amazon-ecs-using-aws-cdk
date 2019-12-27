@@ -1,3 +1,7 @@
 FROM nginx:1.14
 
-COPY default.conf /etc/nginx/conf.d/default.conf
+RUN apt-get -y update && apt-get install -y curl
+HEALTHCHECK --interval=1m --timeout=3s CMD curl --fail http://localhost/health || exit 1
+
+COPY default.conf.template /etc/nginx/conf.d/default.conf.template
+COPY command.sh /opt/command.sh

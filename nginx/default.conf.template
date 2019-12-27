@@ -1,3 +1,7 @@
+upstream app {
+    server $APP_HOST:9000;
+}
+
 server {
     index index.php index.html;
     server_name localhost;
@@ -9,9 +13,14 @@ server {
         try_files $uri $uri/ /index.php$is_args$args;
     }
 
+    location /health {
+        return 200 'healthy';
+        add_header Content-Type text/plain;
+    }
+
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php-fpm)(/.+)$;
-        fastcgi_pass php-fpm:9000;
+        fastcgi_pass app;
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;

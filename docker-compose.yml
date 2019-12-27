@@ -4,8 +4,11 @@ services:
     build: './nginx'
     depends_on:
       - php-fpm
+    environment:
+      APP_HOST: php-fpm
     ports:
       - '8000:80'
+    command: /bin/bash /opt/command.sh
   php-fpm:
     build: './php-fpm'
     ports:
